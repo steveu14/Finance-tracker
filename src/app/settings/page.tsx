@@ -16,8 +16,10 @@ export default function SettingsPage() {
     <div className="flex min-h-screen" style={{ background: "#0A0A0A", fontFamily: "'DM Sans', sans-serif" }}>
       <Sidebar />
       <div className="flex-1 ml-56">
-        <header className="px-8 py-4 sticky top-0 z-10"
-          style={{ background: "rgba(10,10,10,0.9)", backdropFilter: "blur(12px)", borderBottom: "1px solid #1F1F1F" }}>
+        <header
+          className="px-8 py-4 sticky top-0 z-10"
+          style={{ background: "rgba(10,10,10,0.9)", backdropFilter: "blur(12px)", borderBottom: "1px solid #1F1F1F" }}
+        >
           <h1 className="text-lg font-semibold" style={{ color: "#F1F5F9" }}>Settings</h1>
           <p className="text-xs mt-0.5" style={{ color: "#4B5563" }}>Manage your account and preferences</p>
         </header>
@@ -67,14 +69,15 @@ export default function SettingsPage() {
             )}
 
             {(disconnected || !hasToken) && (
-              
-                href="/"
-                className="block w-full py-2.5 text-sm font-medium rounded-lg transition-colors text-center"
-                style={{ color: "#3B82F6", border: "1px solid #1F2937", background: "transparent", textDecoration: "none" }}
-                onMouseOver={(e) => (e.currentTarget.style.background = "#111827")}
-                onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
-              >
-                Connect a Bank Account
+              <a href="/">
+                <button
+                  className="w-full py-2.5 text-sm font-medium rounded-lg transition-colors"
+                  style={{ color: "#3B82F6", border: "1px solid #1F2937", background: "transparent" }}
+                  onMouseOver={(e) => (e.currentTarget.style.background = "#111827")}
+                  onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
+                >
+                  Connect a Bank Account
+                </button>
               </a>
             )}
           </div>
