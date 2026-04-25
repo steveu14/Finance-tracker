@@ -12,13 +12,11 @@ export function PlaidLink({ onSuccess }: { onSuccess: (token: string) => void })
     localStorage.setItem("plaid_link_token", data.link_token);
   };
 
-  // On page load, check if we're returning from an OAuth redirect
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const isOAuthRedirect = params.get("oauth_state_id");
-    if (isOAuthRedirect) {
-      const savedToken = localStorage.getItem("plaid_link_token");
-      if (savedToken) setLinkToken(savedToken);
+    if (params.get("oauth_state_id")) {
+      const saved = localStorage.getItem("plaid_link_token");
+      if (saved) setLinkToken(saved);
     }
   }, []);
 
@@ -37,15 +35,11 @@ export function PlaidLink({ onSuccess }: { onSuccess: (token: string) => void })
     token: linkToken,
     onSuccess: onPlaidSuccess,
     receivedRedirectUri: typeof window !== "undefined" && window.location.search.includes("oauth_state_id")
-      ? window.location.href
-      : undefined,
+      ? window.location.href : undefined,
   });
 
-  // Auto-open if returning from OAuth redirect
   useEffect(() => {
-    if (ready && window.location.search.includes("oauth_state_id")) {
-      open();
-    }
+    if (ready && window.location.search.includes("oauth_state_id")) open();
   }, [ready, open]);
 
   return (
@@ -56,18 +50,17 @@ export function PlaidLink({ onSuccess }: { onSuccess: (token: string) => void })
         background: "linear-gradient(135deg, #3B82F6, #6366F1)",
         color: "white",
         border: "none",
-        borderRadius: "10px",
-        padding: "9px 20px",
+        borderRadius: "12px",
+        padding: "9px 18px",
         fontSize: "13px",
         fontWeight: 600,
         cursor: "pointer",
         fontFamily: "'DM Sans', sans-serif",
-        letterSpacing: "0.01em",
+        whiteSpace: "nowrap",
+        boxShadow: "0 2px 8px rgba(59,130,246,0.3)",
       }}
-      onMouseOver={(e) => (e.currentTarget.style.opacity = "0.85")}
-      onMouseOut={(e) => (e.currentTarget.style.opacity = "1")}
     >
-      {linkToken ? "Connect Bank Account" : "Get Started"}
+      {linkToken ? "Connect Bank" : "Get Started"}
     </button>
   );
 }

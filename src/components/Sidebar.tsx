@@ -18,16 +18,14 @@ export function Sidebar() {
   return (
     <>
       {/* Mobile top bar */}
-      <div
-        className="md:hidden fixed top-0 left-0 right-0 z-20 flex items-center justify-between px-4 py-3"
-        style={{ background: "#0F0F0F", borderBottom: "1px solid #1F1F1F", fontFamily: "'DM Sans', sans-serif" }}
-      >
+      <div className="md:hidden fixed top-0 left-0 right-0 z-20 flex items-center justify-between px-4 py-3"
+        style={{ background: "white", borderBottom: "1px solid #E5E7EB", fontFamily: "'DM Sans', sans-serif" }}>
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold"
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white text-xs font-bold"
             style={{ background: "linear-gradient(135deg, #3B82F6, #6366F1)" }}>FT</div>
-          <span className="font-semibold text-sm" style={{ color: "#F1F5F9" }}>Finance Tracker</span>
+          <span className="font-semibold text-sm" style={{ color: "#111827" }}>Finance Tracker</span>
         </div>
-        <button onClick={() => setMobileOpen(!mobileOpen)} style={{ color: "#9CA3AF" }}>
+        <button onClick={() => setMobileOpen(!mobileOpen)} style={{ color: "#6B7280" }}>
           {mobileOpen ? (
             <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -40,19 +38,16 @@ export function Sidebar() {
         </button>
       </div>
 
-      {/* Mobile dropdown menu */}
+      {/* Mobile dropdown */}
       {mobileOpen && (
-        <div
-          className="md:hidden fixed top-12 left-0 right-0 z-20 px-3 py-2"
-          style={{ background: "#0F0F0F", borderBottom: "1px solid #1F1F1F" }}
-        >
+        <div className="md:hidden fixed top-[52px] left-0 right-0 z-20 px-3 py-2"
+          style={{ background: "white", borderBottom: "1px solid #E5E7EB", boxShadow: "0 4px 16px rgba(0,0,0,0.08)" }}>
           {navItems.map((item) => {
             const active = pathname === item.href;
             return (
-              <Link key={item.label} href={item.href} onClick={() => setMobileOpen(false)}
-                style={{ textDecoration: "none" }}>
-                <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg mb-0.5"
-                  style={{ background: active ? "rgba(59,130,246,0.15)" : "transparent", color: active ? "#60A5FA" : "#9CA3AF" }}>
+              <Link key={item.label} href={item.href} onClick={() => setMobileOpen(false)} style={{ textDecoration: "none" }}>
+                <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl mb-0.5"
+                  style={{ background: active ? "#EFF6FF" : "transparent", color: active ? "#3B82F6" : "#6B7280" }}>
                   <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                   </svg>
@@ -66,12 +61,12 @@ export function Sidebar() {
 
       {/* Desktop sidebar */}
       <aside className="hidden md:flex w-56 flex-col fixed h-full z-10"
-        style={{ background: "#0F0F0F", borderRight: "1px solid #1F1F1F", fontFamily: "'DM Sans', sans-serif" }}>
-        <div className="px-5 py-5" style={{ borderBottom: "1px solid #1F1F1F" }}>
+        style={{ background: "white", borderRight: "1px solid #E5E7EB", fontFamily: "'DM Sans', sans-serif" }}>
+        <div className="px-5 py-5" style={{ borderBottom: "1px solid #F3F4F6" }}>
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-xs font-bold"
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white text-xs font-bold"
               style={{ background: "linear-gradient(135deg, #3B82F6, #6366F1)" }}>FT</div>
-            <span className="font-semibold text-sm" style={{ color: "#F1F5F9" }}>Finance Tracker</span>
+            <span className="font-semibold text-sm" style={{ color: "#111827" }}>Finance Tracker</span>
           </div>
         </div>
         <nav className="flex-1 px-3 py-4 space-y-0.5">
@@ -79,11 +74,10 @@ export function Sidebar() {
             const active = pathname === item.href;
             return (
               <Link key={item.label} href={item.href} style={{ textDecoration: "none" }}>
-                <div className="flex items-center gap-3 px-3 py-2 rounded-lg transition-all"
-                  style={{ background: active ? "rgba(59,130,246,0.15)" : "transparent", color: active ? "#60A5FA" : "#6B7280" }}
-                  onMouseOver={(e) => { if (!active) e.currentTarget.style.background = "#161616"; }}
-                  onMouseOut={(e) => { if (!active) e.currentTarget.style.background = "transparent"; }}
-                >
+                <div className="flex items-center gap-3 px-3 py-2 rounded-xl transition-all"
+                  style={{ background: active ? "#EFF6FF" : "transparent", color: active ? "#3B82F6" : "#6B7280" }}
+                  onMouseOver={(e) => { if (!active) e.currentTarget.style.background = "#F9FAFB"; }}
+                  onMouseOut={(e) => { if (!active) e.currentTarget.style.background = "transparent"; }}>
                   <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                   </svg>
@@ -93,13 +87,13 @@ export function Sidebar() {
             );
           })}
         </nav>
-        <div className="px-4 py-4" style={{ borderTop: "1px solid #1F1F1F" }}>
+        <div className="px-4 py-4" style={{ borderTop: "1px solid #F3F4F6" }}>
           <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold"
-              style={{ background: "#3B82F6" }}>U</div>
+            <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold"
+              style={{ background: "linear-gradient(135deg, #3B82F6, #6366F1)" }}>U</div>
             <div>
-              <p className="text-xs font-medium" style={{ color: "#F1F5F9" }}>My Account</p>
-              <p className="text-xs" style={{ color: "#4B5563" }}>Personal</p>
+              <p className="text-xs font-semibold" style={{ color: "#111827" }}>My Account</p>
+              <p className="text-xs" style={{ color: "#9CA3AF" }}>Personal</p>
             </div>
           </div>
         </div>
