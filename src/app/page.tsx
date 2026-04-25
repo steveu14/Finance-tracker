@@ -62,9 +62,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const cached = localStorage.getItem("cached_transactions");
-    if (cached) {
-      try { setTransactions(JSON.parse(cached)); } catch {}
-    }
+    if (cached) { try { setTransactions(JSON.parse(cached)); } catch {} }
     const stored = localStorage.getItem("budgets");
     if (stored) setBudgets(JSON.parse(stored));
     const token = getAccessToken();
@@ -119,54 +117,31 @@ export default function Dashboard() {
   const avatarColors = ["#3B82F6", "#6366F1", "#0EA5E9", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6"];
 
   const summaryCards = [
-    {
-      label: "Total Spent",
-      value: `$${totalSpend.toLocaleString("en-CA", { minimumFractionDigits: 2 })}`,
-      sub: range === "1D" ? "today" : range === "7D" ? "last 7 days" : range === "30D" ? "last 30 days" : "last 90 days",
-      trend: "↓ Expenses", trendColor: "#EF4444",
-      icon: "M17 13l-5 5m0 0l-5-5m5 5V6",
-    },
-    {
-      label: "Transactions",
-      value: filtered.filter((t) => t.amount > 0).length.toString(),
-      sub: "purchases",
-      trend: "↑ Activity", trendColor: "#6366F1",
-      icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2",
-    },
-    {
-      label: "Avg Daily Spend",
-      value: `$${avgDaily.toLocaleString("en-CA", { minimumFractionDigits: 2 })}`,
-      sub: "per day",
-      trend: "~ Average", trendColor: "#0EA5E9",
-      icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z",
-    },
-    {
-      label: "Largest Purchase",
-      value: `$${topExpense.amount.toLocaleString("en-CA", { minimumFractionDigits: 2 })}`,
-      sub: topExpense.name !== "—" ? topExpense.name.slice(0, 20) : "—",
-      trend: "↑ Biggest", trendColor: "#F59E0B",
-      icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
-    },
+    { label: "Total Spent", value: `$${totalSpend.toLocaleString("en-CA", { minimumFractionDigits: 2 })}`, sub: range === "1D" ? "today" : range === "7D" ? "last 7 days" : range === "30D" ? "last 30 days" : "last 90 days", trend: "↓ Expenses", trendColor: "#EF4444", icon: "M17 13l-5 5m0 0l-5-5m5 5V6" },
+    { label: "Transactions", value: filtered.filter((t) => t.amount > 0).length.toString(), sub: "purchases", trend: "↑ Activity", trendColor: "#6366F1", icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" },
+    { label: "Avg Daily Spend", value: `$${avgDaily.toLocaleString("en-CA", { minimumFractionDigits: 2 })}`, sub: "per day", trend: "~ Average", trendColor: "#0EA5E9", icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" },
+    { label: "Largest Purchase", value: `$${topExpense.amount.toLocaleString("en-CA", { minimumFractionDigits: 2 })}`, sub: topExpense.name !== "—" ? topExpense.name.slice(0, 20) : "—", trend: "↑ Biggest", trendColor: "#F59E0B", icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
   ];
 
   return (
     <div className="flex min-h-screen" style={{ background: "#0A0A0A", fontFamily: "'DM Sans', sans-serif" }}>
       <Sidebar />
-      <div className="flex-1 ml-56">
 
-        {/* Header */}
-        <header className="px-8 py-4 flex items-center justify-between sticky top-0 z-10"
+      {/* md:ml-56 offsets for desktop sidebar, pt-12 offsets for mobile top bar */}
+      <div className="flex-1 md:ml-56 pt-12 md:pt-0">
+
+        <header className="px-4 md:px-8 py-4 flex items-center justify-between sticky top-12 md:top-0 z-10"
           style={{ background: "rgba(10,10,10,0.9)", backdropFilter: "blur(12px)", borderBottom: "1px solid #1F1F1F" }}>
           <div>
-            <h1 className="text-lg font-semibold" style={{ color: "#F1F5F9" }}>Finance Dashboard</h1>
+            <h1 className="text-base md:text-lg font-semibold" style={{ color: "#F1F5F9" }}>Finance Dashboard</h1>
             <p className="text-xs mt-0.5" style={{ color: "#4B5563" }}>Credit card expense tracker</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {transactions.length > 0 && (
-              <div className="flex gap-1 p-1 rounded-lg" style={{ background: "#161616", border: "1px solid #2D2D2D" }}>
+              <div className="flex gap-0.5 p-1 rounded-lg" style={{ background: "#161616", border: "1px solid #2D2D2D" }}>
                 {(["1D", "7D", "30D", "90D"] as TimeRange[]).map((r) => (
                   <button key={r} onClick={() => setRange(r)}
-                    className="text-xs px-3 py-1.5 rounded-md font-medium transition-all"
+                    className="text-xs px-2 py-1 rounded-md font-medium transition-all"
                     style={{ background: range === r ? "#3B82F6" : "transparent", color: range === r ? "white" : "#6B7280" }}>
                     {r}
                   </button>
@@ -177,108 +152,83 @@ export default function Dashboard() {
           </div>
         </header>
 
-        <main className="p-8 space-y-5">
+        <main className="p-4 md:p-8 space-y-4 md:space-y-5">
 
           {/* Empty state */}
           {!loading && transactions.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-36 space-y-6">
-              <div className="w-20 h-20 rounded-3xl flex items-center justify-center"
+            <div className="flex flex-col items-center justify-center py-24 space-y-5">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center"
                 style={{ background: "#161616", border: "1px solid #2D2D2D" }}>
-                <svg width="32" height="32" fill="none" stroke="#3B82F6" strokeWidth="1.5" viewBox="0 0 24 24">
+                <svg width="28" height="28" fill="none" stroke="#3B82F6" strokeWidth="1.5" viewBox="0 0 24 24">
                   <rect x="2" y="5" width="20" height="14" rx="3" strokeLinecap="round" strokeLinejoin="round" />
                   <path strokeLinecap="round" d="M2 10h20M6 15h4" />
                 </svg>
               </div>
               <div className="text-center space-y-2">
-                <h2 className="text-lg font-semibold" style={{ color: "#F1F5F9" }}>No account linked yet</h2>
+                <h2 className="text-base font-semibold" style={{ color: "#F1F5F9" }}>No account linked yet</h2>
                 <p className="text-sm max-w-xs leading-relaxed" style={{ color: "#6B7280" }}>
-                  Click <span style={{ color: "#3B82F6" }} className="font-medium">Get Started</span> above to connect your credit card.
+                  Tap <span style={{ color: "#3B82F6" }} className="font-medium">Get Started</span> above to connect your credit card.
                 </p>
-              </div>
-              <div className="flex gap-2">
-                {["Bank-level encryption", "Read-only access", "CAD supported"].map((label) => (
-                  <span key={label} className="text-xs px-3 py-1.5 rounded-full font-medium"
-                    style={{ border: "1px solid #1F2937", color: "#6B7280", background: "#111827" }}>
-                    {label}
-                  </span>
-                ))}
               </div>
             </div>
           )}
 
-          {/* Loading skeletons */}
+          {/* Loading */}
           {loading && transactions.length === 0 && (
-            <div className="space-y-5">
-              <div className="grid grid-cols-4 gap-4">
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="h-32 rounded-xl animate-pulse" style={{ background: "#161616", border: "1px solid #1F1F1F" }} />
+                  <div key={i} className="h-24 rounded-xl animate-pulse" style={{ background: "#161616" }} />
                 ))}
               </div>
-              <div className="h-80 rounded-xl animate-pulse" style={{ background: "#161616", border: "1px solid #1F1F1F" }} />
-              <div className="h-72 rounded-xl animate-pulse" style={{ background: "#161616", border: "1px solid #1F1F1F" }} />
+              <div className="h-64 rounded-xl animate-pulse" style={{ background: "#161616" }} />
             </div>
           )}
 
           {transactions.length > 0 && (
             <>
-              {/* Summary cards */}
-              <div className="grid grid-cols-4 gap-4">
+              {/* Summary cards — 2 cols on mobile, 4 on desktop */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {summaryCards.map((card) => (
-                  <div key={card.label} className="rounded-xl p-5 transition-all"
-                    style={{ background: "#111111", border: "1px solid #1F1F1F" }}
-                    onMouseOver={(e) => (e.currentTarget.style.border = "1px solid #2D2D2D")}
-                    onMouseOut={(e) => (e.currentTarget.style.border = "1px solid #1F1F1F")}
-                  >
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <p className="text-xs font-medium uppercase tracking-widest mb-1" style={{ color: "#4B5563" }}>{card.label}</p>
-                        <p className="text-2xl font-bold tracking-tight" style={{ color: "#F1F5F9" }}>{card.value}</p>
-                      </div>
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                  <div key={card.label} className="rounded-xl p-4 transition-all"
+                    style={{ background: "#111111", border: "1px solid #1F1F1F" }}>
+                    <div className="flex items-start justify-between mb-3">
+                      <p className="text-xs font-medium uppercase tracking-wider" style={{ color: "#4B5563" }}>{card.label}</p>
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
                         style={{ background: "#1A1A1A", border: "1px solid #2D2D2D" }}>
-                        <svg width="14" height="14" fill="none" stroke="#6B7280" strokeWidth="1.8" viewBox="0 0 24 24">
+                        <svg width="12" height="12" fill="none" stroke="#6B7280" strokeWidth="1.8" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" d={card.icon} />
                         </svg>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2" style={{ borderTop: "1px solid #1A1A1A", paddingTop: "12px" }}>
+                    <p className="text-lg md:text-2xl font-bold tracking-tight" style={{ color: "#F1F5F9" }}>{card.value}</p>
+                    <div className="flex items-center gap-1 mt-2" style={{ borderTop: "1px solid #1A1A1A", paddingTop: "8px" }}>
                       <span className="text-xs font-semibold" style={{ color: card.trendColor }}>{card.trend}</span>
-                      <span className="text-xs truncate" style={{ color: "#4B5563" }}>{card.sub}</span>
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Chart — full width */}
-              <div className="rounded-xl p-6" style={{ background: "#111111", border: "1px solid #1F1F1F" }}>
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <h2 className="text-sm font-semibold" style={{ color: "#F1F5F9" }}>Spending Over Time</h2>
-                    <p className="text-xs mt-0.5" style={{ color: "#4B5563" }}>
-                      {range === "1D" ? "Today" : range === "7D" ? "Last 7 days" : range === "30D" ? "Last 30 days" : "Last 90 days"}
-                    </p>
-                  </div>
-                </div>
+              {/* Chart */}
+              <div className="rounded-xl p-4 md:p-6" style={{ background: "#111111", border: "1px solid #1F1F1F" }}>
+                <h2 className="text-sm font-semibold mb-0.5" style={{ color: "#F1F5F9" }}>Spending Over Time</h2>
+                <p className="text-xs mb-4" style={{ color: "#4B5563" }}>
+                  {range === "1D" ? "Today" : range === "7D" ? "Last 7 days" : range === "30D" ? "Last 30 days" : "Last 90 days"}
+                </p>
                 <SpendingChart transactions={filtered} range={range} />
               </div>
 
-              {/* Budget section */}
-              <div className="rounded-xl p-6" style={{ background: "#111111", border: "1px solid #1F1F1F" }}>
-                <div className="mb-5">
-                  <h2 className="text-sm font-semibold" style={{ color: "#F1F5F9" }}>Monthly Budget</h2>
-                  <p className="text-xs mt-0.5" style={{ color: "#4B5563" }}>Track your spending against your budget</p>
-                </div>
+              {/* Budget */}
+              <div className="rounded-xl p-4 md:p-6" style={{ background: "#111111", border: "1px solid #1F1F1F" }}>
+                <h2 className="text-sm font-semibold mb-0.5" style={{ color: "#F1F5F9" }}>Monthly Budget</h2>
+                <p className="text-xs mb-4" style={{ color: "#4B5563" }}>Track spending against your budget</p>
 
-                {/* Month + input */}
-                <div className="flex items-end gap-4 mb-6">
-                  <div className="flex-1 max-w-xs">
-                    <label className="text-xs font-medium uppercase tracking-widest mb-2 block" style={{ color: "#4B5563" }}>Month</label>
-                    <select
-                      value={selectedMonth}
-                      onChange={(e) => setSelectedMonth(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-lg text-sm font-medium appearance-none cursor-pointer"
-                      style={{ background: "#161616", border: "1px solid #2D2D2D", color: "#F1F5F9", outline: "none" }}
-                    >
+                <div className="flex flex-col md:flex-row items-start md:items-end gap-3 mb-5">
+                  <div className="w-full md:flex-1 md:max-w-xs">
+                    <label className="text-xs font-medium uppercase tracking-widest mb-1.5 block" style={{ color: "#4B5563" }}>Month</label>
+                    <select value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg text-sm font-medium appearance-none cursor-pointer"
+                      style={{ background: "#161616", border: "1px solid #2D2D2D", color: "#F1F5F9", outline: "none" }}>
                       {availableMonths.map((m) => (
                         <option key={m} value={m} style={{ background: "#161616" }}>
                           {MONTH_LABELS[m.slice(5)] ?? m.slice(5)} {m.slice(0, 4)}
@@ -286,196 +236,151 @@ export default function Dashboard() {
                       ))}
                     </select>
                   </div>
-                  <div className="flex-1 max-w-xs">
-                    <label className="text-xs font-medium uppercase tracking-widest mb-2 block" style={{ color: "#4B5563" }}>Budget Amount (CAD)</label>
+                  <div className="w-full md:flex-1 md:max-w-xs">
+                    <label className="text-xs font-medium uppercase tracking-widest mb-1.5 block" style={{ color: "#4B5563" }}>Budget (CAD)</label>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm" style={{ color: "#6B7280" }}>$</span>
-                      <input
-                        type="number" min="0" placeholder="e.g. 2000"
-                        value={budgetInput}
+                      <input type="number" min="0" placeholder="e.g. 2000" value={budgetInput}
                         onChange={(e) => { setBudgetInput(e.target.value); setBudgetSaved(false); }}
-                        className="w-full pl-7 pr-4 py-2.5 rounded-lg text-sm font-medium"
+                        className="w-full pl-7 pr-4 py-2 rounded-lg text-sm font-medium"
                         style={{ background: "#161616", border: "1px solid #2D2D2D", color: "#F1F5F9", outline: "none" }}
                         onFocus={(e) => (e.target.style.border = "1px solid #3B82F6")}
-                        onBlur={(e) => (e.target.style.border = "1px solid #2D2D2D")}
-                      />
+                        onBlur={(e) => (e.target.style.border = "1px solid #2D2D2D")} />
                     </div>
                   </div>
                   <button onClick={saveBudget}
-                    className="px-6 py-2.5 rounded-lg text-sm font-semibold transition-all"
+                    className="w-full md:w-auto px-5 py-2 rounded-lg text-sm font-semibold"
                     style={{
                       background: budgetSaved ? "#052e16" : "linear-gradient(135deg, #3B82F6, #6366F1)",
                       color: budgetSaved ? "#10B981" : "white",
                       border: budgetSaved ? "1px solid #166534" : "none",
-                      minWidth: "110px",
+                      minWidth: "100px",
                     }}>
-                    {budgetSaved ? "✓ Saved" : "Save Budget"}
+                    {budgetSaved ? "✓ Saved" : "Save"}
                   </button>
                 </div>
 
                 {budget > 0 ? (
                   <>
-                    {/* Budget summary cards */}
-                    <div className="grid grid-cols-3 gap-4 mb-5">
+                    <div className="grid grid-cols-3 gap-3 mb-4">
                       {[
-                        {
-                          label: "Budgeted",
-                          value: `$${budget.toLocaleString("en-CA", { minimumFractionDigits: 2 })}`,
-                          color: "#3B82F6",
-                          sub: selectedLabel,
-                        },
-                        {
-                          label: "Spent",
-                          value: `$${monthlySpend.toLocaleString("en-CA", { minimumFractionDigits: 2 })}`,
-                          color: pct >= 90 ? "#EF4444" : pct >= 70 ? "#F59E0B" : "#10B981",
-                          sub: `${monthlyTxns.length} transactions`,
-                        },
-                        {
-                          label: remaining >= 0 ? "Remaining" : "Over Budget",
-                          value: `$${Math.abs(remaining).toLocaleString("en-CA", { minimumFractionDigits: 2 })}`,
-                          color: remaining >= 0 ? "#10B981" : "#EF4444",
-                          sub: remaining >= 0 ? `${(100 - pct).toFixed(0)}% left` : `${(pct - 100).toFixed(0)}% over`,
-                        },
+                        { label: "Budgeted", value: `$${budget.toLocaleString("en-CA", { minimumFractionDigits: 2 })}`, color: "#3B82F6", sub: selectedLabel },
+                        { label: "Spent", value: `$${monthlySpend.toLocaleString("en-CA", { minimumFractionDigits: 2 })}`, color: pct >= 90 ? "#EF4444" : pct >= 70 ? "#F59E0B" : "#10B981", sub: `${monthlyTxns.length} txns` },
+                        { label: remaining >= 0 ? "Remaining" : "Over", value: `$${Math.abs(remaining).toLocaleString("en-CA", { minimumFractionDigits: 2 })}`, color: remaining >= 0 ? "#10B981" : "#EF4444", sub: remaining >= 0 ? `${(100 - pct).toFixed(0)}% left` : "over budget" },
                       ].map((c) => (
-                        <div key={c.label} className="rounded-lg p-4" style={{ background: "#161616", border: "1px solid #1A1A1A" }}>
-                          <p className="text-xs uppercase tracking-widest mb-1" style={{ color: "#4B5563" }}>{c.label}</p>
-                          <p className="text-xl font-bold" style={{ color: "#F1F5F9" }}>{c.value}</p>
-                          <p className="text-xs mt-1" style={{ color: c.color }}>{c.sub}</p>
+                        <div key={c.label} className="rounded-lg p-3" style={{ background: "#161616", border: "1px solid #1A1A1A" }}>
+                          <p className="text-xs uppercase tracking-wider mb-1" style={{ color: "#4B5563" }}>{c.label}</p>
+                          <p className="text-base font-bold" style={{ color: "#F1F5F9" }}>{c.value}</p>
+                          <p className="text-xs mt-0.5 truncate" style={{ color: c.color }}>{c.sub}</p>
                         </div>
                       ))}
                     </div>
 
-                    {/* Progress bar */}
-                    <div className="mb-5">
-                      <div className="flex justify-between mb-2">
+                    <div className="mb-4">
+                      <div className="flex justify-between mb-1.5">
                         <span className="text-xs" style={{ color: "#4B5563" }}>Progress</span>
-                        <span className="text-xs font-semibold"
-                          style={{ color: pct >= 90 ? "#EF4444" : pct >= 70 ? "#F59E0B" : "#10B981" }}>
+                        <span className="text-xs font-semibold" style={{ color: pct >= 90 ? "#EF4444" : pct >= 70 ? "#F59E0B" : "#10B981" }}>
                           {pct.toFixed(1)}% used
                         </span>
                       </div>
                       <div className="w-full h-2.5 rounded-full overflow-hidden" style={{ background: "#1F2937" }}>
                         <div className="h-full rounded-full transition-all duration-700"
-                          style={{
-                            width: `${pct}%`,
-                            background: pct >= 90
-                              ? "linear-gradient(90deg, #EF4444, #DC2626)"
-                              : pct >= 70
-                              ? "linear-gradient(90deg, #F59E0B, #D97706)"
-                              : "linear-gradient(90deg, #3B82F6, #6366F1)",
-                          }} />
-                      </div>
-                      <div className="flex justify-between mt-1">
-                        <span className="text-xs" style={{ color: "#4B5563" }}>$0</span>
-                        <span className="text-xs" style={{ color: "#4B5563" }}>
-                          ${budget.toLocaleString("en-CA", { minimumFractionDigits: 2 })}
-                        </span>
+                          style={{ width: `${pct}%`, background: pct >= 90 ? "linear-gradient(90deg, #EF4444, #DC2626)" : pct >= 70 ? "linear-gradient(90deg, #F59E0B, #D97706)" : "linear-gradient(90deg, #3B82F6, #6366F1)" }} />
                       </div>
                     </div>
 
-                    {/* Category bars */}
                     {monthlyTxns.length > 0 && (
                       <div className="space-y-3">
                         <p className="text-xs font-medium uppercase tracking-widest" style={{ color: "#4B5563" }}>By Category</p>
-                        {Object.entries(
-                          monthlyTxns.reduce((acc: any, t) => {
-                            const cat = getCategory(t);
-                            acc[cat] = (acc[cat] || 0) + t.amount;
-                            return acc;
-                          }, {})
-                        )
+                        {Object.entries(monthlyTxns.reduce((acc: any, t) => {
+                          const cat = getCategory(t);
+                          acc[cat] = (acc[cat] || 0) + t.amount;
+                          return acc;
+                        }, {}))
                           .sort((a: any, b: any) => b[1] - a[1])
                           .slice(0, 5)
-                          .map(([cat, amount]: any, i) => {
-                            const catPct = budget > 0 ? Math.min((amount / budget) * 100, 100) : 0;
-                            return (
-                              <div key={cat}>
-                                <div className="flex items-center justify-between mb-1">
-                                  <div className="flex items-center gap-2">
-                                    <div className="w-2 h-2 rounded-full" style={{ background: COLORS[i % COLORS.length] }} />
-                                    <span className="text-xs capitalize" style={{ color: "#9CA3AF" }}>{cat}</span>
-                                  </div>
-                                  <span className="text-xs font-semibold" style={{ color: "#E2E8F0" }}>
-                                    ${amount.toLocaleString("en-CA", { minimumFractionDigits: 2 })}
-                                  </span>
+                          .map(([cat, amount]: any, i) => (
+                            <div key={cat}>
+                              <div className="flex items-center justify-between mb-1">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-2 h-2 rounded-full" style={{ background: COLORS[i % COLORS.length] }} />
+                                  <span className="text-xs capitalize" style={{ color: "#9CA3AF" }}>{cat}</span>
                                 </div>
-                                <div className="w-full h-1 rounded-full" style={{ background: "#1F2937" }}>
-                                  <div className="h-full rounded-full transition-all duration-500"
-                                    style={{ width: `${catPct}%`, background: COLORS[i % COLORS.length] }} />
-                                </div>
+                                <span className="text-xs font-semibold" style={{ color: "#E2E8F0" }}>
+                                  ${amount.toLocaleString("en-CA", { minimumFractionDigits: 2 })}
+                                </span>
                               </div>
-                            );
-                          })}
+                              <div className="w-full h-1 rounded-full" style={{ background: "#1F2937" }}>
+                                <div className="h-full rounded-full"
+                                  style={{ width: `${Math.min((amount / budget) * 100, 100)}%`, background: COLORS[i % COLORS.length] }} />
+                              </div>
+                            </div>
+                          ))}
                       </div>
                     )}
                   </>
                 ) : (
-                  <div className="text-center py-8 rounded-lg" style={{ background: "#161616" }}>
-                    <p className="text-sm" style={{ color: "#4B5563" }}>
-                      No budget set for {selectedLabel} — enter an amount above to get started.
-                    </p>
+                  <div className="text-center py-6 rounded-lg" style={{ background: "#161616" }}>
+                    <p className="text-sm" style={{ color: "#4B5563" }}>No budget set for {selectedLabel}.</p>
                   </div>
                 )}
               </div>
 
-              {/* Transactions table */}
+              {/* Transactions table — scrollable on mobile */}
               <div className="rounded-xl overflow-hidden" style={{ background: "#111111", border: "1px solid #1F1F1F" }}>
-                <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid #1A1A1A" }}>
+                <div className="flex items-center justify-between px-4 md:px-6 py-4" style={{ borderBottom: "1px solid #1A1A1A" }}>
                   <div>
                     <h2 className="text-sm font-semibold" style={{ color: "#F1F5F9" }}>Recent Transactions</h2>
                     <p className="text-xs mt-0.5" style={{ color: "#4B5563" }}>{recentTxns.length} most recent</p>
                   </div>
                 </div>
-                <table className="w-full">
-                  <thead>
-                    <tr style={{ borderBottom: "1px solid #1A1A1A" }}>
-                      {["Transaction", "Date", "Category", "Amount"].map((h) => (
-                        <th key={h}
-                          className={`px-6 py-3 text-xs font-semibold uppercase tracking-wider ${h === "Amount" ? "text-right" : "text-left"}`}
-                          style={{ color: "#4B5563" }}>
-                          {h}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {recentTxns.map((t, i) => {
-                      const initials = t.name.split(" ").map((w: string) => w[0]).join("").slice(0, 2).toUpperCase();
-                      const isCredit = t.amount < 0;
-                      return (
-                        <tr key={t.transaction_id}
-                          style={{ borderBottom: i < recentTxns.length - 1 ? "1px solid #161616" : "none" }}
-                          onMouseOver={(e) => (e.currentTarget.style.background = "#161616")}
-                          onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
-                        >
-                          <td className="px-6 py-3.5">
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
-                                style={{ background: avatarColors[i % avatarColors.length] }}>
-                                {initials}
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[500px]">
+                    <thead>
+                      <tr style={{ borderBottom: "1px solid #1A1A1A" }}>
+                        {["Transaction", "Date", "Category", "Amount"].map((h) => (
+                          <th key={h} className={`px-4 md:px-6 py-3 text-xs font-semibold uppercase tracking-wider ${h === "Amount" ? "text-right" : "text-left"}`}
+                            style={{ color: "#4B5563" }}>{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {recentTxns.map((t, i) => {
+                        const initials = t.name.split(" ").map((w: string) => w[0]).join("").slice(0, 2).toUpperCase();
+                        const isCredit = t.amount < 0;
+                        return (
+                          <tr key={t.transaction_id}
+                            style={{ borderBottom: i < recentTxns.length - 1 ? "1px solid #161616" : "none" }}
+                            onMouseOver={(e) => (e.currentTarget.style.background = "#161616")}
+                            onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
+                          >
+                            <td className="px-4 md:px-6 py-3">
+                              <div className="flex items-center gap-2">
+                                <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
+                                  style={{ background: avatarColors[i % avatarColors.length] }}>
+                                  {initials}
+                                </div>
+                                <span className="text-sm font-medium truncate max-w-[120px] md:max-w-[200px]" style={{ color: "#E2E8F0" }}>{t.name}</span>
                               </div>
-                              <span className="text-sm font-medium truncate max-w-[200px]" style={{ color: "#E2E8F0" }}>
-                                {t.name}
+                            </td>
+                            <td className="px-4 md:px-6 py-3 text-xs whitespace-nowrap" style={{ color: "#4B5563" }}>{t.date}</td>
+                            <td className="px-4 md:px-6 py-3">
+                              <span className="text-xs font-medium px-2 py-0.5 rounded-full capitalize"
+                                style={{ background: "#1A1A1A", color: "#9CA3AF", border: "1px solid #2D2D2D" }}>
+                                {getCategory(t)}
                               </span>
-                            </div>
-                          </td>
-                          <td className="px-6 py-3.5 text-xs" style={{ color: "#4B5563" }}>{t.date}</td>
-                          <td className="px-6 py-3.5">
-                            <span className="text-xs font-medium px-2.5 py-1 rounded-full capitalize"
-                              style={{ background: "#1A1A1A", color: "#9CA3AF", border: "1px solid #2D2D2D" }}>
-                              {getCategory(t)}
-                            </span>
-                          </td>
-                          <td className="px-6 py-3.5 text-right">
-                            <span className="text-sm font-bold" style={{ color: isCredit ? "#10B981" : "#E2E8F0" }}>
-                              {isCredit ? "+" : "-"}${Math.abs(t.amount).toFixed(2)}
-                            </span>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                            </td>
+                            <td className="px-4 md:px-6 py-3 text-right">
+                              <span className="text-sm font-bold" style={{ color: isCredit ? "#10B981" : "#E2E8F0" }}>
+                                {isCredit ? "+" : "-"}${Math.abs(t.amount).toFixed(2)}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </>
           )}
